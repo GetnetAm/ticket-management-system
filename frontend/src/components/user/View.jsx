@@ -14,7 +14,7 @@ function View() {
             
             
             try {
-                const response= await axios.get(`http://localhost:5000/api/employee/list/${id}`, {
+                const response= await axios.get(`http://localhost:5000/api/user/list/${id}`, {
                     headers:{
                         "Authorization":`Bearer ${localStorage.getItem('token')}`
                     }

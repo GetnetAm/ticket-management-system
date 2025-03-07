@@ -16,7 +16,7 @@ function List() {
 
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/employee/list",
+          "http://localhost:5000/api/user/list",
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,

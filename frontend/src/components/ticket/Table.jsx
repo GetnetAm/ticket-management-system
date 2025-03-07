@@ -1,56 +1,56 @@
 import { useEffect, useState } from "react";
-import { columns, LeaveButtons } from "../../utils/LeaveHelper";
+import { columns, TicketButtons } from "../../utils/ticketHelper";
 import axios from "axios";
 import DataTable from "react-data-table-component";
 import Loader from "../loader/Loader";
 
 function Table() {
-  const [leaves, setLeaves] = useState([]);
-  const [filteredLeaves, setFilteredLeaves] = useState([]);
+  const [tickets, setTickets] = useState([]);
+  const [filteredTickets, setFilteredTickets] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filterStatus, setFilterStatus] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const fetchLeaves = async () => {
+  const fetchTicket = async () => {
     try {
-      const response = await axios.get("http://localhost:5000/api/leave/lists", {
+      const response = await axios.get("http://localhost:5000/api/ticket/lists", {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
 
       if (response.data.success) {
         let sno = 1;
-        const data = response.data.leaves.map((leave) => ({
-          key: leave._id, // Add unique key
-          _id: leave._id,
+        const data = response.data.tickets.map((ticket) => ({
+          key: ticket._id, // Add unique key
+          _id: ticket._id,
           sno: sno++,
-          employeeId: leave.employeeId?.employeeId || "N/A",
-          name: leave.employeeId?.userId?.name || "N/A",
-          leaveType: leave.leaveType || "N/A",
-          department: leave.employeeId?.department?.dep_name || "N/A",
+          employeeId: ticket.employeeId?.employeeId || "N/A",
+          name: ticket.employeeId?.userId?.name || "N/A",
+          ticketType: ticket.ticketType || "N/A",
+          department: ticket.employeeId?.department?.dep_name || "N/A",
           days: Math.abs(
-            (new Date(leave.endDate) - new Date(leave.startDate)) / (1000 * 60 * 60 * 24)
+            (new Date(ticket.endDate) - new Date(ticket.startDate)) / (1000 * 60 * 60 * 24)
           ),
-          status: leave.status || "Pending",
-          action: <LeaveButtons Id={leave._id} />,
+          status: ticket.status || "Pending",
+          action: <TicketButtons Id={ticket._id} />,
         }));
-        setLeaves(data);
-        setFilteredLeaves(data);
+        setTickets(data);
+        setFilteredTickets(data);
       }
     } catch (error) {
-      console.error("Error fetching leaves:", error.message);
-      alert(error.response?.data?.error || "Failed to fetch leave data.");
+      console.error("Error fetching tickets:", error.message);
+      alert(error.response?.data?.error || "Failed to fetch ticket data.");
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchLeaves();
+    fetchTicket();
   }, []);
 
   // Update filtered leaves based on search query and status
   useEffect(() => {
-    let updatedLeaves = leaves;
+    let updatedLeaves = tickets;
 
     if (searchQuery) {
       updatedLeaves = updatedLeaves.filter(
@@ -61,13 +61,13 @@ function Table() {
     }
 
     if (filterStatus) {
-      updatedLeaves = updatedLeaves.filter((leave) =>
-        leave.status.toLowerCase().includes(filterStatus.toLowerCase())
+      updatedTickets = updatedTickets.filter((ticket) =>
+        ticket.status.toLowerCase().includes(filterStatus.toLowerCase())
       );
     }
 
-    setFilteredLeaves(updatedLeaves);
-  }, [searchQuery, filterStatus, leaves]);
+    setFilteredTickets(updatedTickets);
+  }, [searchQuery, filterStatus, tickets]);
 
   const handleSearch = (e) => {
     setSearchQuery(e.target.value.toLowerCase());
@@ -86,7 +86,7 @@ function Table() {
       ) : (
         <div className="p-6">
           <div className="text-center">
-            <h3 className="text-2xl font-bold">Manage Leaves</h3>
+            <h3 className="text-2xl font-bold">Manage tickets</h3>
           </div>
 
           <div className="flex justify-between items-center mt-4">
@@ -126,7 +126,7 @@ function Table() {
           </div>
 
           <div className="mt-3">
-            <DataTable columns={columns} data={filteredLeaves} pagination />
+            <DataTable columns={columns} data={filteredTickets} pagination />
           </div>
         </div>
       )}
