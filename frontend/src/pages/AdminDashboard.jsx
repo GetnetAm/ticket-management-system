@@ -1,27 +1,29 @@
 import { Outlet, useNavigate } from "react-router-dom";
 // import { useAuth } from "../context/authContext"
-// import AdminSidebar from "../components/dashboard/AdminSidebar";
-// import Navbar from "../components/dashboard/Navbar";
+import AdminSidebar from "../components/dashboard/AdminSidebar";
+import Navbar from "../components/dashboard/Navbar";
+import { useAuth } from "../context/authContext";
 
 
 function AdminDashboard() {
 
-    // const {user, loading}= useAuth();
-    // const navigate= useNavigate();
+    const {user, loading}= useAuth();
 
-    // if(loading){
-    //     return <div>Loading</div>
-    // }
+    const navigate= useNavigate();
 
-    // if(!user){
-    //     navigate("/login")
-    // }
+    if(loading){
+        return <div>Loading</div>
+    }
+
+    if(!user){
+        navigate("/login")
+    }
 
     return (
         <div className="flex">
-        {/* <AdminSidebar /> */}
+        <AdminSidebar />
         <div className="flex-1 ml-64 bg-gray-100 h-screen">
-            {/* <Navbar /> */}
+            <Navbar />
             {/* <AdminSummary /> */}
             <Outlet />
             <h1>Hello Test</h1>

@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom"
 import Navbar from "../components/dashboard/Navbar"
-import EmployeeSideBar from "../components/Employee Dashobard/EmployeeSideBar"
+import EmployeeSideBar from "../components/User Dashobard/UserSideBar"
 
 function EmployeeDashboard() {
     return (

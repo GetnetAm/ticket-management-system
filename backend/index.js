@@ -6,7 +6,6 @@ const cookiesParser= require("cookie-parser")
 require("dotenv").config()
 const app = express();
 
-// const authRouter= require("./routes/auth")
 const authRouter= require("./routes/auth")
 // const departmentRouter= require("./routes/departmentRoute")
 // const employeeRoute= require("./routes/employeeRoute")
@@ -41,7 +40,7 @@ app.use('/api/auth', authRouter)
 
 
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 mongoose
 
